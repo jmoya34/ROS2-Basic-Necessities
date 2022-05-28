@@ -12,6 +12,7 @@ ROS offers a Data Distribution service (DDS) which is the communication pipline 
 ### Nodes have 3 ways of communication:
 * **Publisher** nodes sending infromation that allow for **Subscriber** nodes to recive information.
 * **Services** sends a request to a **Service server** that when completes a request will send back a response
+* **Topics** are the individual communication pipelines. They are a parameter used in publisher and subcriber methods. Publisher create the topics, and subscribers call to the topic.
 * **Actions** will send a goal which the **Actions server** will process the goal and send progress updates to the client that sent the goal. This process is known as **Feedback**.
 
 ### Node Parameters:
@@ -111,4 +112,149 @@ ros2 pkg executables <your_pkg>
 <br>
 
 # Developing ROS2 skills in python
+All nodes consist of the same format for publisher, subscribers, and publiser subscribers in combination. Look into [script_examples folder](/script_examples) for references.
 
+<br>
+As Discussed earlier publishers share data with other nodes and along with subscribers, and are essential to understand.
+
+<br>
+
+## Publishers
+
+### Importing modules
+```python
+#! /usr/bin/env python3
+# note that i wrote this in ubuntu 20.04.4 where i use colcon to build packages 
+import rclpy
+from rclpy.node import Node
+
+from std_msgs.msg import String
+```
+* **[NOTE]:** In this instance we are publishing a String data type, and if we were to attempt to upload a different data type there would be an error. To include more data types import the next to String. Checking what types are allowed are simple as googling it or typing in the terminal the following command
+```bash
+ros2 interface types
+```
+
+### Writing a publisher Node as a class
+```python
+class HelloWorldPublisher(Node):
+    def __init__(self):
+        super().__init__("Hello_world_pub_node") # This is the name of the node. No spaces are allowed in the name. Adding spaces can lead to issues.
+        self.pub = self.create_publisher(String, 'hello_world', 10)# We put the data, the name of the topic, and the QOS which stands for quality of service
+        self.timer = self.create_timer(2, self.publish_hello_world) #The parameters take the time to repeat the function and the function being run.
+
+        self.counter = 0 
+
+    def publish_hello_world(self):
+        msg = String() # We create a string message
+        msg.data = 'Hello World ' + str(self.counter) # Then we load the message
+        self.pub.publish(msg) # this then publishes the message
+        self.counter += 1
+```
+
+### Running the class in main
+```python
+def main():
+    rclpy.init()
+    my_pub = HelloWorldPublisher()
+    print("publisher Node Running...")
+
+    try:
+        rclpy.spin(my_pub)
+    except KeyboardInterrupt:
+        my_pub.destroy_node()
+        rclpy.shutdown
+
+
+if __name__ == '__main__':
+    main()
+```
+
+From here add the node to the cmakelist.txt file and build with colcon then source is. 
+
+
+## Subscribers
+### Importing Modules
+```python
+#! /usr/bin/env python3
+# note that i wrote this in ubuntu 20.04.4 where i use colcon to build packages
+ 
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+```
+We are recieving a String from the publisher node therefore we are going to need the String interface type.
+
+### Writing a subscriber node as a class
+```python
+ '''
+create_subscription has 4 parameters. The variable type, topic name WHICH MUST MATCH WITH PARAMETER TOPIC NAME, callback function which will be run everytime something is published over a topic, and QOS (quality of service)
+'''
+class HelloWorldSubscriber(Node):
+    def __init__(self):
+        super().__init__("hello_world_sub_node")
+        self.sub = self.create_subscription(String, "hello_world",
+                                            self.subscriber_callback, 10)
+       
+    
+    def subscriber_callback(self, msg):
+        print("received: " + msg.data) # msg.data is the information from the pub
+```
+
+### Running the class in main
+```python
+def main():
+    rclpy.init()
+
+    my_sub = HelloWorldSubscriber()
+
+    print("Waiting for data to be published over topic")
+
+    try:
+        rclpy.spin(my_sub)
+    except KeyboardInterrupt:
+        my_sub.destroy_node()
+        rclpy.shutdown
+
+
+if __name__ == '__main__':
+    main()
+```
+
+## Publisher and Subscriber combination
+
+```python
+#! /usr/bin/env python3
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class pubAndSub(Node):
+    def __init__(self):
+        super().__init__("publisher_subscriber_node")
+        self.sub = self.create_subscription(String, "hello_world", self.subscriber_callback, 10)
+        self.pub = self.create_publisher(String, "hybrid_node", 10)
+
+    def subscriber_callback(self, msg):
+        new_msg = String()
+        new_msg.data = msg.data + " plus new words are being added in"
+        print(new_msg.data)
+        self.pub.publish(new_msg)
+
+def main():
+    rclpy.init()
+
+    my_sub = pubAndSub()
+    print("Waiting for data to be published over topic")
+
+    try:
+        rclpy.spin(my_sub)
+    except KeyboardInterrupt:
+        my_sub.destroy_node()
+        rclpy.shutdown
+
+
+if __name__ == '__main__':
+    main()
+```
+Please note that your publisher node also has to be running in order for this to work.
