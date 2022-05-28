@@ -30,3 +30,19 @@ ros2 interface list
 ```
 
 ros_learning_pkg hybrid.py
+
+<br>
+
+## Parameters
+### Param list
+```bash
+ros2 param list
+```
+### Get param
+```bash
+ros2 param get <node_name> <param_name>
+```
+### Set Param
+```bash
+ros2 param set <node_name> <param_name> <value>
+```

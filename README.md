@@ -1,4 +1,4 @@
-# Setting up ROS2
+# Setting up ROS2 (Ubuntu 20.04 Distro)
 A timeline on how to learn ROS2. I will be refering to the offcial [ROS2 documentation](https://docs.ros.org/en/foxy/index.html) as well as [Raymond Andrade's ROS2 robotics developer Course.](https://www.udemy.com/course/ros2-robotics-developer-course-using-ros2-in-python/)
 
 
@@ -258,3 +258,30 @@ if __name__ == '__main__':
     main()
 ```
 Please note that your publisher node also has to be running in order for this to work.
+* Please note how in this instance where we publish information that it doesn't not require using the timer method as before. 
+
+<br>
+
+## Parameters
+Messing around with parameters can be done through both python and terminal. Inside the [ros2_commands_list](/ros2_commands_list) you can see the list of parameter commands you can use in the terminal. Using it through python inolves 3 steps:
+1. Declare the parameter
+2. Get the parameter
+3. Get parameter values
+```python
+class testingParameters(Node):
+    def __init__(self):
+        super().__init__("testing_parameters")
+
+        self.default_value = 10
+        self.declare_parameter("wheel_radius", default_value)
+        self.sub = self.create_subscription(String, "hello_world", selfsubscriber_callback, 10)
+
+    def create_subscription(self, msg):
+        print(self.get_parameter("wheel_radius").get_parameter_value())
+```
+* We can see that **declare_parameter** takes two inputs. The name of parameter we choose, and the value we assign it. 
+* To access the parameter info we have to use the **get_parameter** and **get_parameter_value** method.
+
+<br>
+
+# Launch and Bag files
