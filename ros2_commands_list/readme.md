@@ -46,3 +46,11 @@ ros2 param get <node_name> <param_name>
 ```bash
 ros2 param set <node_name> <param_name> <value>
 ```
+
+<br>
+
+## Launch Files
+### Run launch file
+```bash
+ros2 launch <pkg_name> <launch_file_name>
+```

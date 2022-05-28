@@ -82,22 +82,25 @@ Everytime we add a new node to our package we have to configure out cmakelist.tx
 ![Visual Representation of how package.xml might look](/imgs/packxml.png)
 
 2. Everytime we add a new node, we must write it down in CMakeLists.txt. Under line 19 in the CMakeLists.txt file write the following lines of code
-```
+```cmake
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclpy REQUIRED)
 ament_python_install_package(scripts/)
 ```
+
+
 * **[IMPORTANT]** Colcon build will fail if you do not create a __init__.py file inside scripts file!
 * Using the command will allow your nodes to be included as such. There is no limit to the amount of nodes you wish to add. In the example below, I have a publisher and subscriber node inside my scripts folder that I am attempting to associate with my package.
-```
+```cmake
 install(PROGRAMS
 scripts/publisher.py
 scripts/subscriber.py
 DESTINATION lib/${PROJECT_NAME}
 )
 ```
+![Image on how CMakeLists.txt should look](/imgs/cmake_txt.png)
 * Please note that if the top of the python script does not inolve a ```#! /usr/bin/env python3``` then colcon report an error. Look at examples for more info.
 
 3. By going back into workspace directory we can colcon and source the package 
@@ -285,3 +288,43 @@ class testingParameters(Node):
 <br>
 
 # Launch and Bag files
+## Launch Files 
+Create a launch folder in the same directory as the scripts and cmake directory. Inside create a python file with **.launch.py** at the end of the file name. The entire script example is located inside [script_examples folder.](/script_examples/launch/publisher_node.launch.py) 
+
+1. Import the following modules 
+```python
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from launch.actions import ExecuteProcess
+```
+2. Create the function as follows
+```python
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package='ros_learning_pkg',
+            executable='publisher.py',
+            name="hello_world_node"
+        ),
+        ExecuteProcess(
+            cmd=['ros2', 'topic', 'list'],
+            output='screen'
+        )
+    ])
+```
+* The follow are parameters that can be used inside Node
+![Image of Node parameters](/imgs/launch_parameters.png)
+* Excute Process allows us to run terminal commands through python. Words must be seperated as shown in the generate launch description function.
+
+3. We need to add to the CMakeLists.txt file inorder to be able to colcon bulid in directory. Add the folliwng code under:
+```Cmake
+install(DIRECTORY
+launch
+DESTINATION share/${PROJECT_NAME}/
+)
+```
+![Image of how adding launch to cmake looks like](/imgs/launch_cmake.png)
+We can now colcon build and source the package to be able to excute the launch file. The following command are colcon building and sourcing follows as:
+```bash
+ros2 launch <pkg_name> <launch_file_name>
+```
