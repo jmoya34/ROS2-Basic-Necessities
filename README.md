@@ -287,8 +287,7 @@ class testingParameters(Node):
 
 <br>
 
-# Launch and Bag files
-## Launch Files 
+# Launch Files
 Create a launch folder in the same directory as the scripts and cmake directory. Inside create a python file with **.launch.py** at the end of the file name. The entire script example is located inside [script_examples folder.](/script_examples/launch/publisher_node.launch.py) 
 
 1. Import the following modules 
@@ -328,3 +327,5 @@ We can now colcon build and source the package to be able to excute the launch f
 ```bash
 ros2 launch <pkg_name> <launch_file_name>
 ```
+
+# ROS2 Packages
