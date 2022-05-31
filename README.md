@@ -71,6 +71,14 @@ moya@:~/Desktop/ros_workspace$ colcon build
 moya@:~/Desktop/ros_workspace$ source install/setup.bash
 ```
 
+## For every new terminal run commands
+```bash
+source /opt/ros/foxy/setup.bash
+colcon build
+source install/setup.bash
+```
+
+
 ## Configuring Packages
 Everytime we add a new node to our package we have to configure out cmakelist.txt and package.xml file so the complier involves the newly created scripts.
 

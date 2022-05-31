@@ -29,7 +29,19 @@ ros2 run <your_pkg> <node>.py
 ros2 interface list
 ```
 
-ros_learning_pkg hybrid.py
+<br>
+
+## Topics
+### Topic list
+```bash
+ros2 topic list
+```
+
+### Echo topic
+```bash
+ros2 topic info <topic>
+```
+
 
 <br>
 
