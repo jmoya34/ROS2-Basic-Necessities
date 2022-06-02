@@ -50,7 +50,7 @@ moya@:~/Desktop/ros_workspace/learning_ws/src$ ros2 pkg create learning_ws_pkg -
 ### Building package using colcon:
 * Going back to our workspace directory in terminal, we are going to use colcon to build our package. For reference, the path should look something like this:
 ```bash
-moya@:~/Desktop/ros_workspace$
+moya@:~/Desktop/ros_workspace/learning_ws$
 ```
 
 * **[IMPORTANT]** Every time we adding a script or make a change to a script we have to rebuild the package using colcon.
@@ -60,7 +60,7 @@ sudo apt install python3-colcon-common-extensions
 ```
 * Using colcon is as simple as running the command
 ```bash
-moya@:~/Desktop/ros_workspace$ colcon build
+moya@:~/Desktop/ros_workspace/learning_ws$ colcon build
 ```
 * There should be 3 new folders labled
 1. build
