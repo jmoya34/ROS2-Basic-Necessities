@@ -5,6 +5,10 @@ A timeline on how to learn ROS2. I will be refering to the offcial [ROS2 documen
 ## Installation
 An advantage of ROS2 over ROS1 is the combaility with Windows, Mac, and Linux. The path I recommend when working with robotics is Linux due to jetson nanos and raspberry pi's using Linux. If you have a Mac or Windows device trying to follow Linux guide, I recommend using a virtual machine. Go into [Virtual Machine setup](VirtualMachineSetup)
 * Here is the official documentation for installing [ROS2 Foxy Distro](https://docs.ros.org/en/foxy/Installation.html)
+* After you finish installing ROS2 Foxy Distro run the following command so you do not have to source ros2 everytime you open a terminal
+```bash
+echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+```
 
 ## Framework Overview
 ROS offers a Data Distribution service (DDS) which is the communication pipline interfaces with all excuting code. The excuting files using ROS functionality are known as **Nodes**
