@@ -1,9 +1,9 @@
 # Setting up ROS2 (Ubuntu 20.04 Distro)
-A timeline on how to learn ROS2. I will be refering to the offcial [ROS2 documentation](https://docs.ros.org/en/foxy/index.html) as well as [Raymond Andrade's ROS2 robotics developer Course.](https://www.udemy.com/course/ros2-robotics-developer-course-using-ros2-in-python/)
+A timeline on how to learn ROS2. I will be referring to the official [ROS2 documentation](https://docs.ros.org/en/foxy/index.html) as well as [Raymond Andrade's ROS2 robotics developer Course.](https://www.udemy.com/course/ros2-robotics-developer-course-using-ros2-in-python/)
 
 
 ## Installation
-An advantage of ROS2 over ROS1 is the combaility with Windows, Mac, and Linux. The path I recommend when working with robotics is Linux due to jetson nanos and raspberry pi's using Linux. If you have a Mac or Windows device trying to follow Linux guide, I recommend using a virtual machine. Go into [Virtual Machine setup](VirtualMachineSetup)
+An advantage of ROS2 over ROS1 is the compatibility with Windows, Mac, and Linux. The path I recommend when working with robotics is Linux due to jetson and raspberry pi series using Linux. If you have a Mac or Windows device trying to follow Linux guide, I recommend using a virtual machine. Go into [Virtual Machine setup](VirtualMachineSetup)
 * Here is the official documentation for installing [ROS2 Foxy Distro](https://docs.ros.org/en/foxy/Installation.html)
 * After you finish installing ROS2 Foxy Distro run the following command so you do not have to source ros2 everytime you open a terminal
 ```bash
@@ -11,12 +11,12 @@ echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 ```
 
 ## Framework Overview
-ROS offers a Data Distribution service (DDS) which is the communication pipline interfaces with all excuting code. The excuting files using ROS functionality are known as **Nodes**
+ROS offers a Data Distribution service (DDS) which is the communication pipeline interfaces with all executing code. The executing files using ROS functionality are known as **Nodes**
 
 ### Nodes have 3 ways of communication:
-* **Publisher** nodes sending infromation that allow for **Subscriber** nodes to recive information.
+* **Publisher** nodes sending information that allow for **Subscriber** nodes to receive information.
 * **Services** sends a request to a **Service server** that when completes a request will send back a response
-* **Topics** are the individual communication pipelines. They are a parameter used in publisher and subcriber methods. Publisher create the topics, and subscribers call to the topic.
+* **Topics** are the individual communication pipelines. They are a parameter used in publisher and subscriber methods. Publisher create the topics, and subscribers call to the topic.
 * **Actions** will send a goal which the **Actions server** will process the goal and send progress updates to the client that sent the goal. This process is known as **Feedback**.
 
 ### Node Parameters:
@@ -30,11 +30,11 @@ ROS offers a Data Distribution service (DDS) which is the communication pipline 
 
 ### Packages:
 * Packages contain all code for a robots functionality.
-* Packages can be shared between users to replicate with their own rebot.
+* Packages can be shared between users to replicate.
 * You are able to incorporate other packages along with your own as well.
 
 ## Creating Workspaces
-Your startign directory doesn't matter. I personally like seeing my files on the desktop so I create my workspaces as such on Linux.
+Your starting directory doesn't matter. I personally like seeing my files on the desktop so I create my workspaces as such on Linux.
 
 ```bash
 moya@:~/Desktop/ros_workspace$
@@ -49,7 +49,7 @@ moya@:~/Desktop/ros_workspace/learning_ws/src$ ros2 pkg create learning_ws_pkg -
 ![folders](/imgs/amentcmake.png)
 
 ### Create Scripts folder:
-* In the same directory as the cmakelists.txt file, create a folder for future scripts that we are goign to make.
+* In the same directory as the cmakelists.txt file, create a folder for future scripts that we are going to make.
 
 ### Building package using colcon:
 * Going back to our workspace directory in terminal, we are going to use colcon to build our package. For reference, the path should look something like this:
@@ -66,11 +66,11 @@ sudo apt install python3-colcon-common-extensions
 ```bash
 moya@:~/Desktop/ros_workspace/learning_ws$ colcon build
 ```
-* There should be 3 new folders labled
+* There should be 3 new folders labeled
 1. build
 2. install
 3. log
-* To include the package to the terminal enviornment use comamnds
+* To include the package to the terminal environment use commands
 ```bash
 moya@:~/Desktop/ros_workspace$ source install/setup.bash
 ```
@@ -113,7 +113,7 @@ DESTINATION lib/${PROJECT_NAME}
 )
 ```
 ![Image on how CMakeLists.txt should look](/imgs/cmake_txt.png)
-* Please note that if the top of the python script does not inolve a ```#! /usr/bin/env python3``` then colcon report an error. Look at examples for more info.
+* Please note that if the top of the python script does not involve a ```#! /usr/bin/env python3``` then colcon report an error. Look at examples for more info.
 
 3. By going back into workspace directory we can colcon and source the package 
 ```bash
@@ -127,7 +127,7 @@ ros2 pkg executables <your_pkg>
 <br>
 
 # Developing ROS2 skills in python
-All nodes consist of the same format for publisher, subscribers, and publiser subscribers in combination. Look into [script_examples folder](/script_examples) for references.
+All nodes consist of the same format for publisher, subscribers, and publisher subscribers in combination. Look into [script_examples folder](/script_examples) for references.
 
 <br>
 As Discussed earlier publishers share data with other nodes and along with subscribers, and are essential to understand.
@@ -198,7 +198,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 ```
-We are recieving a String from the publisher node therefore we are going to need the String interface type.
+We are receiving a String from the publisher node therefore we are going to need the String interface type.
 
 ### Writing a subscriber node as a class
 ```python
@@ -278,7 +278,7 @@ Please note that your publisher node also has to be running in order for this to
 <br>
 
 ## Parameters
-Messing around with parameters can be done through both python and terminal. Inside the [ros2_commands_list](/ros2_commands_list) you can see the list of parameter commands you can use in the terminal. Using it through python inolves 3 steps:
+Messing around with parameters can be done through both python and terminal. Inside the [ros2_commands_list](/ros2_commands_list) you can see the list of parameter commands you can use in the terminal. Using it through python involves 3 steps:
 1. Declare the parameter
 2. Get the parameter
 3. Get parameter values
@@ -325,9 +325,9 @@ def generate_launch_description():
 ```
 * The follow are parameters that can be used inside Node
 ![Image of Node parameters](/imgs/launch_parameters.png)
-* Excute Process allows us to run terminal commands through python. Words must be seperated as shown in the generate launch description function.
+* Execute Process allows us to run terminal commands through python. Words must be separated as shown in the generate launch description function.
 
-3. We need to add to the CMakeLists.txt file inorder to be able to colcon bulid in directory. Add the folliwng code under:
+3. We need to add to the CMakeLists.txt file in order to be able to colcon build in directory. Add the following code under:
 ```Cmake
 install(DIRECTORY
 launch
@@ -335,9 +335,50 @@ DESTINATION share/${PROJECT_NAME}/
 )
 ```
 ![Image of how adding launch to cmake looks like](/imgs/launch_cmake.png)
-We can now colcon build and source the package to be able to excute the launch file. The following command are colcon building and sourcing follows as:
+We can now colcon build and source the package to be able to execute the launch file. The following command are colcon building and sourcing follows as:
 ```bash
 ros2 launch <pkg_name> <launch_file_name>
 ```
 
-# ROS2 Packages
+# Packages
+## Using other developers packages
+
+Method 1: Installing to ros path
+
+* Using image_common repo as an example
+https://github.com/ros-perception/image_common
+* We use "-" to represent a space and underscore in the name
+```bash
+sudo apt install ros-$ROS_DISTRO-image-common
+```
+- The folder locates to path **/opt/ros/foxy/share**
+
+Method2: Adding package to workspace
+* We clone the repo into the workspace folder inside of src 
+* You can find the package name often inside of the xml file
+```bash
+colcon build --package-select <package_name>
+```
+
+<br>
+
+# Services
+## Interfaces with request, response architecture 
+
+### Understanding services:
+* Open a terminal and run
+```bash
+ros2 interface list
+```
+* Using the particular interface std_srvs/srv/SetBool we can see how services are formatted when shown
+```bash
+ros2 interface show std_srvs/srv/SetBool
+```
+* The message should display as:
+```
+bool data # e.g. for hardware enabling / disabling
+---
+bool success   # indicate successful run of triggered service
+string message # informational, e.g. for error messages
+```
+* There are two sections with the top being the request and the bottom is the response
