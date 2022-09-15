@@ -382,3 +382,21 @@ bool success   # indicate successful run of triggered service
 string message # informational, e.g. for error messages
 ```
 * There are two sections with the top being the request and the bottom is the response
+
+### Creating services:
+* In your package, create a folder labled srv.
+![Image of how all folders together look like](/imgs/pkg_files_img.png)
+* Inside the folder we create the file, and for this example we will create an odd or even checker.
+* Create a .srv file called OddEvenChecker.srv
+* The top line of the .srv file is the request type and the bottom is the response which is seperated by three dashes. The request and responses are giving names like variables.
+```srv
+int64 number
+---
+string decision
+```
+
+
+
+
+* Note you can get syntax coloring by installing the follow extension on vscode:
+![Extension name: Msgs Language Support](/imgs/srv_extension.png)
